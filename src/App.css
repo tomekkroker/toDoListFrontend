@@ -1,38 +1,99 @@
 .App {
-  text-align: center;
+    text-align: center;
 }
 
 .App-logo {
-  height: 40vmin;
-  pointer-events: none;
+    height: 150px;
+    pointer-events: none;
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    border: thick lightsteelblue solid;
+    border-radius: 8px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 40px;
+    background: aliceblue;
+    margin-bottom: 50px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.my-lists {
+    height: 150px;
+    pointer-events: none;
+    text-align: center;
+    font-weight: bold;
+    background: aliceblue;
+    padding: 50px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.Auth-form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background: lightsteelblue;
 }
 
-.App-link {
-  color: #61dafb;
+.Auth-form {
+    width: 420px;
+    box-shadow: rgb(0 0 0 / 16%) 1px 1px 10px;
+    padding-top: 30px;
+    padding-bottom: 20px;
+    border-radius: 8px;
+    background-color: aliceblue;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.Auth-form-content {
+    padding-left: 12%;
+    padding-right: 12%;
+}
+
+.Auth-form-title {
+    text-align: center;
+    margin-bottom: 1em;
+    font-size: 24px;
+    color: rgb(34, 34, 34);
+    font-weight: 800;
+}
+
+label {
+    font-size: 14px;
+    font-weight: 600;
+    color: rgb(34, 34, 34);
+}
+
+.input {
+    float: left;
+    margin: 30px;
+    display: inline-block;
+}
+
+div label {
+    display: block;
+}
+
+.content {
+    margin-left: 100px;
+    margin-right: 100px;
+}
+
+.light-button {
+    width: 10%;
+    background-color: aliceblue;
+    border-width: 1px;
+    border-color: cornflowerblue;
+    border-radius: 8px;
+    padding: 5px;
+}
+
+.save-button {
+    float: right;
+    margin-right: 100px;
+    margin-top: 5px;
+}
+
+.return-button {
+    margin-left: 100px;
+    margin-top: 5px;
 }
