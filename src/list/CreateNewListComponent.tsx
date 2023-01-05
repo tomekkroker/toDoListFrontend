@@ -11,7 +11,7 @@ const CreateNewListComponent: FC = () => {
   return (
     <div className="p-col-12">
       <div className="card content">
-        <h1 className="my-lists">Moje listy zadań</h1>
+        <h1 className="my-lists">Dodawanie nowej listy</h1>
         <div className="p-grid p-fluid">
           <div className="p-col-12">
 
