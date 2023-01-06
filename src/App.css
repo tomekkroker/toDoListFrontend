@@ -18,7 +18,7 @@
 }
 
 .my-lists {
-    height: 150px;
+    height: 100px !important;
     pointer-events: none;
     text-align: center;
     font-weight: bold;
@@ -66,34 +66,94 @@ label {
 .input {
     float: left;
     margin: 30px;
-    display: inline-block;
 }
 
-div label {
+input, label {
     display: block;
 }
 
 .content {
-    margin-left: 100px;
-    margin-right: 100px;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1000px;
+    background-color: white;
 }
 
 .light-button {
-    width: 10%;
-    background-color: aliceblue;
-    border-width: 1px;
-    border-color: cornflowerblue;
-    border-radius: 8px;
-    padding: 5px;
+    width: 10% !important;
+    background-color: aliceblue !important;
+    border-color: cornflowerblue !important;
+    border-radius: 8px !important;
+    padding: 5px !important;
+    color: black !important;
+}
+
+.light-button:hover {
+    background-color: #d4e6fc !important;
 }
 
 .save-button {
+    max-width: 120px;
     float: right;
-    margin-right: 100px;
-    margin-top: 5px;
+    margin-top: 5px !important;
 }
 
 .return-button {
-    margin-left: 100px;
-    margin-top: 5px;
+    min-width: 120px;
+    margin-top: 5px !important;
+}
+
+.background-color {
+    background: lightsteelblue;
+}
+
+ul {
+    list-style-type: none;
+    margin-left: 10px;
+}
+
+.input-button {
+    display: inline-flex !important;
+    min-width: calc(100% - 40px);
+}
+
+.checkbox {
+    margin-right: 10px;
+    margin-top: 10px;
+}
+
+.p-button .p-button-icon-left {
+    margin-right: 0.1rem;
+    margin-left: 0.5rem;
+}
+
+.edit-button {
+    margin: 3px !important;
+    background-color: aliceblue !important;
+    border-color: cornflowerblue !important;
+    border-radius: 8px !important;
+    padding: 5px !important;
+    color: black !important;
+}
+
+.edit-button:hover {
+    background-color: #d4e6fc !important;
+}
+
+.trash-button {
+    margin: 3px !important;
+    background-color: aliceblue !important;
+    border-radius: 8px !important;
+    padding: 5px !important;
+    color: red !important;
+}
+
+.trash-button:hover {
+    background-color: #d4e6fc !important;
+}
+
+.create-list-button {
+    min-width: 200px !important;
+    margin-bottom: 5px !important;
+
 }

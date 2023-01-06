@@ -10,7 +10,7 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/auth" element={<Auth/>}/>
+          <Route path="/" element={<Auth/>}/>
           <Route path="/lists" element={<TodoListsComponent/>}/>
           <Route path="/lists/create" element={<CreateNewListComponent/>}/>
         </Routes>
