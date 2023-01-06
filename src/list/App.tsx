@@ -1,9 +1,9 @@
 import "bootstrap/dist/css/bootstrap.min.css"
-import "./App.css"
+import "../styles/App.css"
 import {BrowserRouter, Routes, Route} from "react-router-dom"
 import Auth from "./Auth"
-import TodoListsComponent from "./list/TodoListsComponent"
-import CreateNewListComponent from "./list/CreateNewListComponent";
+import TodoListsComponent from "./TodoListsComponent"
+import CreateNewListComponent from "./CreateNewListComponent";
 
 function App() {
   return (

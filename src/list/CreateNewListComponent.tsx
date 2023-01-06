@@ -6,7 +6,7 @@ import {useNavigate} from "react-router-dom";
 import {priorities} from "./constValues";
 import {useFormik} from "formik";
 import * as Yup from 'yup';
-import {inputProps} from "../InputProps";
+import {inputProps} from "../utils/InputProps";
 import {Calendar} from "primereact/calendar";
 import {AddTodo, Todo, ToggleTodo} from "./todo.d.ts";
 import TodoList from "./TodoList";
