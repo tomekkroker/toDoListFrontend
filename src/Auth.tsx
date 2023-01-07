@@ -42,7 +42,7 @@ export default function () {
             <div className="d-grid gap-2 mt-3">
               <Button
                 type="submit"
-                className="btn btn-primary"
+                className="log-button"
                 label="Zaloguj się"
                 onClick={handleNavigate}
               />

@@ -18,12 +18,11 @@
 }
 
 .my-lists {
-    height: 100px !important;
     pointer-events: none;
     text-align: center;
     font-weight: bold;
     background: aliceblue;
-    padding: 50px;
+    padding: 20px;
 }
 
 .Auth-form-container {
@@ -47,6 +46,16 @@
 .Auth-form-content {
     padding-left: 12%;
     padding-right: 12%;
+}
+
+.log-button {
+    background: lightsteelblue !important;
+    color: black !important;
+    font-weight: bold !important;
+    border-color: steelblue !important;
+}
+.log-button:hover {
+    background: rgba(176, 196, 222, 0.73) !important;
 }
 
 .Auth-form-title {

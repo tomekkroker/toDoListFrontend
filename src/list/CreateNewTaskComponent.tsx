@@ -2,13 +2,13 @@ import React from "react";
 import {Dropdown} from "primereact/dropdown";
 import {Button} from "primereact/button";
 import {useNavigate} from "react-router-dom";
-import {dataList, priorities} from "./constValues";
+import {priorities} from "./constValues";
 import {useFormik} from "formik";
 import * as Yup from 'yup';
 import {inputProps} from "../InputProps";
 import {InputText} from "primereact/inputtext";
-import {DataTable} from "primereact/datatable";
-import {Column} from "primereact/column";
+import {InputTextarea} from "primereact/inputtextarea";
+import {Calendar} from "primereact/calendar";
 
 type Props = {}
 
@@ -18,7 +18,7 @@ type FormValues = {
   description: string;
 };
 
-const CreateNewListComponent = () => {
+const CreateNewTaskComponent = () => {
 
   const navigate = useNavigate();
 
@@ -45,13 +45,9 @@ const CreateNewListComponent = () => {
     },
   });
 
-  const handleNavigate = () => {
-    navigate('task')
-  }
-
   return (
     <div className="p-col-12">
-      <h2 className="my-lists">Dodawanie nowej listy</h2>
+      <h2 className="my-lists">Dodawanie nowego zadania</h2>
       <div className="content">
         <div className="form">
 
@@ -74,40 +70,21 @@ const CreateNewListComponent = () => {
             />
           </div>
 
-          <div style={{clear: "both"}}>
-            <Button
-              className="light-button create-list-button"
-              label="Stwórz nowe zadanie"
-              icon="pi pi-plus"
-              onClick={handleNavigate}
+          <div className="input">
+            <label>Deadline</label>
+            <Calendar
+              placeholder="Wpisz deadline"
+              {...inputProps(formik, 'deadline')}
             />
           </div>
 
-          <div style={{clear: "both"}}/>
-          <h5> Zadania do zrobienia</h5>
-          <div className="card" style={{clear: "both"}}>
-
-            <DataTable
-              value={dataList}
-              responsiveLayout="scroll">
-              <Column
-                header="Akcje"
-                body={(row) => (
-                  <>
-                    <Button
-                      className="edit-button"
-                      icon="pi pi-pencil"
-                    />
-                    <Button
-                      className="trash-button"
-                      icon="pi pi-trash"
-                    />
-                  </>
-                )}
-              />
-              <Column field="name" header="Nazwa"/>
-              <Column field="priority" header="Priorytet"/>
-            </DataTable>
+          <div className="input">
+            <label>Opis</label>
+            <InputTextarea
+              placeholder="Wpisz opis"
+              rows={3}
+              {...inputProps(formik, 'description')}
+            />
           </div>
 
         </div>
@@ -130,4 +107,4 @@ const CreateNewListComponent = () => {
   )
 }
 
-export default CreateNewListComponent;
+export default CreateNewTaskComponent;
