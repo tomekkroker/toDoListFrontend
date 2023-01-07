@@ -1,18 +1,14 @@
-import React, {useState} from "react";
-import {InputTextarea} from "primereact/inputtextarea";
+import React from "react";
 import {Dropdown} from "primereact/dropdown";
 import {Button} from "primereact/button";
 import {useNavigate} from "react-router-dom";
-import {priorities} from "./constValues";
+import {dataList, priorities} from "./constValues";
 import {useFormik} from "formik";
 import * as Yup from 'yup';
 import {inputProps} from "../InputProps";
-import {Calendar} from "primereact/calendar";
-import {AddTodo, Todo, ToggleTodo} from "./todo.d.ts";
-import TodoList from "./TodoList";
-import AddTodoForm from "./AddTodoForm"
-import {Fieldset} from "primereact/fieldset";
 import {InputText} from "primereact/inputtext";
+import {DataTable} from "primereact/datatable";
+import {Column} from "primereact/column";
 
 type Props = {}
 
@@ -22,35 +18,9 @@ type FormValues = {
   description: string;
 };
 
-const initialTodos: Todo[] = [
-  {
-    text: 'Wyjść z psem',
-    complete: false,
-  },
-];
-
 const CreateNewListComponent = () => {
 
-  const [todos, setTodos] = useState(initialTodos);
   const navigate = useNavigate();
-
-  const toggleTodo: ToggleTodo = (selectedTodo: Todo) => {
-    const newTodos = todos.map((todo) => {
-      if (todo === selectedTodo) {
-        return {
-          ...todo,
-          complete: !todo.complete,
-        };
-      }
-      return todo;
-    });
-    setTodos(newTodos);
-  };
-
-  const addTodo: AddTodo = (text: string) => {
-    const newTodo = {text, complete: false};
-    setTodos([...todos, newTodo]);
-  };
 
   const formik = useFormik<FormValues>({
     enableReinitialize: true,
@@ -75,6 +45,10 @@ const CreateNewListComponent = () => {
     },
   });
 
+  const handleNavigate = () => {
+    navigate('task')
+  }
+
   return (
     <div className="p-col-12">
       <h2 className="my-lists">Dodawanie nowej listy</h2>
@@ -82,19 +56,11 @@ const CreateNewListComponent = () => {
         <div className="form">
 
           <div className="input">
-            <label>Nazwa</label>
+            <label>* Nazwa</label>
             <InputText
               type="text"
               placeholder="Wpisz nazwę"
               {...inputProps(formik, 'name')}
-            />
-          </div>
-
-          <div className="input">
-            <label>Deadline</label>
-            <Calendar
-              placeholder="Wpisz deadline"
-              {...inputProps(formik, 'deadline')}
             />
           </div>
 
@@ -108,26 +74,41 @@ const CreateNewListComponent = () => {
             />
           </div>
 
-          <div className="input">
-            <label>Opis</label>
-            <InputTextarea
-              placeholder="Wpisz opis"
-              rows={3}
-              {...inputProps(formik, 'description')}
+          <div style={{clear: "both"}}>
+            <Button
+              className="light-button create-list-button"
+              label="Stwórz nowe zadanie"
+              icon="pi pi-plus"
+              onClick={handleNavigate}
             />
           </div>
 
-          <Fieldset legend="Zadania do zrobienia" style={{width: '100%'}}>
-            <div className="content">
-              <AddTodoForm addTodo={addTodo}/>
-            </div>
-            <div className="content">
-              <TodoList
-                todos={todos}
-                toggleTodo={toggleTodo}
+          <div style={{clear: "both"}}/>
+          <h5> Zadania do zrobienia</h5>
+          <div className="card" style={{clear: "both"}}>
+
+            <DataTable
+              value={dataList}
+              responsiveLayout="scroll">
+              <Column
+                header="Akcje"
+                body={(row) => (
+                  <>
+                    <Button
+                      className="edit-button"
+                      icon="pi pi-pencil"
+                    />
+                    <Button
+                      className="trash-button"
+                      icon="pi pi-trash"
+                    />
+                  </>
+                )}
               />
-            </div>
-          </Fieldset>
+              <Column field="name" header="Nazwa"/>
+              <Column field="priority" header="Priorytet"/>
+            </DataTable>
+          </div>
 
         </div>
       </div>
@@ -142,6 +123,7 @@ const CreateNewListComponent = () => {
           label="Zapisz"
           className="light-button save-button"
           icon="pi pi-check"
+          disabled={formik.values.name === ''}
         />
       </div>
     </div>
