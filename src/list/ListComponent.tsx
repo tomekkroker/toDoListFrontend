@@ -3,49 +3,52 @@ import {Button} from "primereact/button";
 import {useNavigate} from 'react-router-dom';
 import {DataTable} from "primereact/datatable";
 import {Column} from "primereact/column";
-import {dataTask} from "./constValues";
+import {ListResponse} from "./dto";
 
-const TodoListsComponent: FC = () => {
+type Props = {
+  listOfTasks: Array<ListResponse>;
+  handleEditClick: (row: ListResponse) => void;
+  handleAddClick: () => void;
+}
 
+const ListComponent: FC<Props> = (props) => {
   const navigate = useNavigate();
-
-  const handleNavigate = () => {
-    navigate('list')
-  }
-
   return (
     <>
-      <h2 className="my-lists">Moje listy zadań</h2>
+      <h2 className="my-header">Moje listy zadań</h2>
       <div className="content">
         <div>
           <Button
             className="light-button create-list-button"
             label="Stwórz nową listę"
             icon="pi pi-plus"
-            onClick={handleNavigate}
+            onClick={props.handleAddClick}
           />
         </div>
         <div className="card">
           <DataTable
-            value={dataTask}
-            responsiveLayout="scroll">
+            value={props.listOfTasks}
+            responsiveLayout="scroll"
+          >
             <Column
               header="Akcje"
               body={(row) => (
                 <>
                   <Button
-                    className="edit-button"
+                    className="show-edit-button"
                     icon="pi pi-pencil"
+                    tooltip="Edytuj listę zadań"
+                    onClick={() => props.handleEditClick(row)}
                   />
                   <Button
                     className="trash-button"
                     icon="pi pi-trash"
+                    tooltip="Usuń listę zadań"
                   />
                 </>
               )}
             />
             <Column field="name" header="Nazwa listy"/>
-            <Column field="deadline" header="Deadline"/>
             <Column field="priority" header="Priorytet"/>
           </DataTable>
         </div>
@@ -59,4 +62,4 @@ const TodoListsComponent: FC = () => {
     </>
   )}
 
-export default TodoListsComponent;
+export default ListComponent;
