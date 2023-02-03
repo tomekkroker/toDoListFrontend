@@ -16,6 +16,10 @@ export default function () {
     navigate('/lists')
   }
 
+  const sendLoginRequest = () => {
+    console.log("Send login request")
+  }
+
   if (authMode === "signin") {
     return (
       <div className="Auth-form-container">
@@ -45,6 +49,7 @@ export default function () {
                 className="log-button"
                 label="Zaloguj się"
                 onClick={handleNavigate}
+                // onClick={() => sendLoginRequest()}
               />
             </div>
             <div className="text-center">

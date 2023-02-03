@@ -8,7 +8,7 @@
     text-align: center;
     font-size: 30px;
     font-weight: bold;
-    border: thick lightsteelblue solid;
+    border: thick #a1cafc solid;
     border-radius: 8px;
     padding-left: 20px;
     padding-right: 20px;
@@ -17,7 +17,7 @@
     margin-bottom: 50px;
 }
 
-.my-lists {
+.my-header {
     pointer-events: none;
     text-align: center;
     font-weight: bold;
@@ -31,7 +31,7 @@
     align-items: center;
     width: 100vw;
     height: 100vh;
-    background: lightsteelblue;
+    background: #a1cafc;
 }
 
 .Auth-form {
@@ -49,13 +49,13 @@
 }
 
 .log-button {
-    background: lightsteelblue !important;
+    background: rgba(161, 202, 252, 0.62) !important;
     color: black !important;
     font-weight: bold !important;
     border-color: steelblue !important;
 }
 .log-button:hover {
-    background: rgba(176, 196, 222, 0.73) !important;
+    background: #a1cafc !important;
 }
 
 .Auth-form-title {
@@ -102,18 +102,28 @@ input, label {
 }
 
 .save-button {
-    max-width: 120px;
+    min-width: 120px;
     float: right;
     margin-top: 5px !important;
+    margin-right: 5px !important;
+    margin-bottom: 5px !important;
 }
 
 .return-button {
     min-width: 120px;
     margin-top: 5px !important;
+    margin-left: 5px !important;
+    margin-bottom: 5px !important;
 }
 
 .background-color {
-    background: lightsteelblue;
+    background: #a1cafc;
+}
+
+.tasks {
+    padding: 10px !important;
+    margin: 2px !important;
+    background-color: aliceblue;
 }
 
 ul {
@@ -136,7 +146,7 @@ ul {
     margin-left: 0.5rem;
 }
 
-.edit-button {
+.show-edit-button {
     margin: 3px !important;
     background-color: aliceblue !important;
     border-color: cornflowerblue !important;
@@ -145,7 +155,7 @@ ul {
     color: black !important;
 }
 
-.edit-button:hover {
+.show-edit-button:hover {
     background-color: #d4e6fc !important;
 }
 
@@ -164,5 +174,5 @@ ul {
 .create-list-button {
     min-width: 200px !important;
     margin-bottom: 5px !important;
-
+    margin-left: 5px !important;
 }
