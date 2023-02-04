@@ -8,6 +8,7 @@ import {ListResponse} from "./dto";
 type Props = {
   listOfTasks: Array<ListResponse>;
   handleEditClick: (row: ListResponse) => void;
+  handleDeleteClick: (row: ListResponse) => void;
   handleAddClick: () => void;
 }
 
@@ -36,20 +37,27 @@ const ListComponent: FC<Props> = (props) => {
                 <>
                   <Button
                     className="show-edit-button"
-                    icon="pi pi-pencil"
-                    tooltip="Edytuj listę zadań"
+                    icon="pi pi-arrow-circle-up"
+                    tooltip="Dodaj zadania do listy"
                     onClick={() => props.handleEditClick(row)}
                   />
                   <Button
                     className="trash-button"
                     icon="pi pi-trash"
                     tooltip="Usuń listę zadań"
+                    onClick={() => props.handleDeleteClick(row)}
                   />
                 </>
               )}
             />
-            <Column field="name" header="Nazwa listy"/>
-            <Column field="priority" header="Priorytet"/>
+            <Column
+              field="name"
+              header="Nazwa listy"
+            />
+            <Column
+              field="priority"
+              header="Priorytet"
+            />
           </DataTable>
         </div>
         <Button
@@ -60,6 +68,7 @@ const ListComponent: FC<Props> = (props) => {
         />
       </div>
     </>
-  )}
+  )
+}
 
 export default ListComponent;

@@ -5,8 +5,8 @@ export interface TaskResponse {
   id: number;
   name: string;
   priority: string;
-  deadline: string;
-  description: string
+  deadline: string | null;
+  description: string | null;
 }
 
 /**
@@ -16,7 +16,7 @@ export interface TaskRequest {
   name: string;
   priority: string;
   deadline: string | null;
-  description: string
+  description: string | null;
   listId: number;
 }
 

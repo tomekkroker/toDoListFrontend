@@ -1,12 +1,11 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import ListFormComponent from "./ListFormComponent";
-import {ListRequest, ListResponse, TaskRequest, TaskResponse} from "./dto";
+import {ListRequest, TaskRequest, TaskResponse} from "./dto";
 import useApiRequest from "../utils/useApiRequest";
 import {useNavigate, useParams} from "react-router-dom";
 import {addList, editList, getList} from "./lists";
 import {getExceptionMessage} from "../utils/getExceptionMessage";
-import {LISTS, TASKS} from "../utils/routeNames";
-import {addTask, editTask, getAllTasks, getListTasks, getTask} from "./tasks";
+import {addTask, deleteTask, editTask, getListTasks} from "./tasks";
 
 type Params = {
   id: string | undefined;
@@ -89,17 +88,57 @@ const ListFormContainer: React.FC = () => {
     setIsTaskDialogOpen(true);
   };
 
+  const handleDeleteClick = async (row: TaskResponse) => {
+    if (row?.id) {
+      try {
+        console.log("usuwanie")
+        await deleteTask(row.id);
+      } catch (e) {
+        const error = await getExceptionMessage(e);
+      }
+    }
+  }
+
+  const headerList = () => {
+    if (params.id == 'add-list') {
+      return 'Dodawanie nowej listy'
+    } else {
+      return 'Dodawanie zadań do listy'
+    }
+  }
+
+  const headerTask = () => {
+    if (taskData && taskData.id) {
+      return 'Edycja zadania';
+    } else {
+      return 'Dodawanie nowego zadania';
+    }
+  }
+
+  const isTaskTableVisible = () => {
+    if (params.id == 'add-list') {
+      // edycja
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   return <ListFormComponent
     dataList={listData}
     onSubmitList={onSaveList}
     tasks={tasksData ?? []}
     handleAddClick={handleAddClick}
     handleEditClick={handleEditClick}
+    handleDeleteClick={handleDeleteClick}
     setIsTaskFormDialog={setIsTaskDialogOpen}
     dataTask={taskData}
     isTaskFormDialog={isTaskDialogOpen}
     onSubmitTask={onSaveTask}
     listId={parseInt(params.id ? params.id : '')}
+    headerList={headerList()}
+    headerTask={headerTask()}
+    isTaskTableVisible={isTaskTableVisible()}
   />
 }
 

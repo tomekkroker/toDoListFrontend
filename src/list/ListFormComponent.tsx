@@ -18,11 +18,15 @@ type Props = {
   handleAddClick: () => void;
   tasks: Readonly<Array<TaskResponse>>;
   handleEditClick: (row: TaskResponse) => void;
+  handleDeleteClick: (row: TaskResponse) => void;
   setIsTaskFormDialog: (data: boolean) => void;
   isTaskFormDialog: boolean;
   dataTask: TaskResponse | null;
   onSubmitTask: (taskRequest: TaskRequest) => void;
   listId: number;
+  headerList: string;
+  headerTask: string;
+  isTaskTableVisible: boolean;
 }
 
 type FormValues = {
@@ -58,7 +62,7 @@ const ListFormComponent: FC<Props> = (props) => {
   return (
     <>
       <div className="p-col-12">
-        <h2 className="my-header">Dodawanie nowej listy</h2>
+        <h2 className="my-header">{props.headerList}</h2>
         <div className="content">
           <div className="form">
 
@@ -84,50 +88,49 @@ const ListFormComponent: FC<Props> = (props) => {
               />
             </div>
 
-            <div style={{clear: "both"}}>
-              <Button
-                className="light-button create-list-button"
-                label="Stwórz nowe zadanie"
-                icon="pi pi-plus"
-                // onClick={props.handleAddClick}
-                onClick={() => props.setIsTaskFormDialog(true)}
-              />
-            </div>
-
-
             {/* Tabela zadań */}
 
-            <div style={{clear: "both"}}/>
-            <div className="card" style={{clear: "both"}}>
-              <h5 className="tasks"> Zadania do zrobienia</h5>
-              <DataTable
-                value={props.tasks as TaskResponse[]}
-                responsiveLayout="scroll">
-                <Column
-                  header="Akcje"
-                  body={(row) => (
-                    <>
-                      <Button
-                        className="show-edit-button"
-                        icon="pi pi-pencil"
-                        tooltip="Edytuj zadanie"
-                        onClick={() => props.handleEditClick(row)}
-                      />
-                      <Button
-                        className="trash-button"
-                        icon="pi pi-trash"
-                        tooltip="Usuń zadanie"
-                      />
-                    </>
-                  )}
-                />
-                <Column field="name" header="Nazwa"/>
-                <Column field="priority" header="Priorytet"/>
-                <Column field="deadline" header="Deadline"/>
-              </DataTable>
-            </div>
+            {!props.isTaskTableVisible && (
+              <>
+                <div style={{clear: "both"}}>
+                  <Button
+                    className="light-button create-list-button"
+                    label="Stwórz nowe zadanie"
+                    icon="pi pi-plus"
+                    onClick={() => props.setIsTaskFormDialog(true)}/>
+                </div>
+                <div style={{clear: "both"}}/>
+                <div className="card" style={{clear: "both"}}>
+                  <h5 className="tasks"> Zadania do zrobienia</h5>
+                  <DataTable
+                    value={props.tasks as TaskResponse[]}
+                    responsiveLayout="scroll">
+                    <Column
+                      header="Akcje"
+                      body={(row) => (
+                        <>
+                          <Button
+                            className="show-edit-button"
+                            icon="pi pi-pencil"
+                            tooltip="Edytuj zadanie"
+                            onClick={() => props.handleEditClick(row)}/>
+                          <Button
+                            className="trash-button"
+                            icon="pi pi-trash"
+                            tooltip="Usuń zadanie"
+                            onClick={() => props.handleDeleteClick(row)}/>
+                        </>
+                      )}/>
+                    <Column field="name" header="Nazwa"/>
+                    <Column field="priority" header="Priorytet"/>
+                    <Column field="deadline" header="Deadline"/>
+                  </DataTable>
+                </div>
+              </>
+            )}
           </div>
         </div>
+
 
         {/* Footer */}
 
@@ -156,6 +159,7 @@ const ListFormComponent: FC<Props> = (props) => {
         onSubmitTask={props.onSubmitTask}
         onHide={() => props.setIsTaskFormDialog(false)}
         listId={props.listId}
+        header={props.headerTask}
       />
     </>
   )

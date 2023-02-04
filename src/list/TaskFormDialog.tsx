@@ -1,7 +1,6 @@
 import React, {FC} from "react";
 import {Dropdown} from "primereact/dropdown";
 import {Button} from "primereact/button";
-import {useNavigate} from "react-router-dom";
 import {priorities} from "./constValues";
 import {useFormik} from "formik";
 import * as Yup from 'yup';
@@ -18,19 +17,18 @@ type Props = {
   dataTask: TaskResponse | null;
   onSubmitTask: (taskRequest: TaskRequest) => void;
   listId: number | undefined;
+  header: string;
 }
 
 type FormValues = {
   name: string;
-  deadline: string | null;
   priority: string;
-  description: string;
+  deadline: string | null;
+  description: string | null;
   listId: number;
 };
 
 const TaskFormDialog: FC<Props> = (props: Props) => {
-
-  const navigate = useNavigate();
 
   const formik = useFormik<FormValues>({
     enableReinitialize: true,
@@ -52,7 +50,7 @@ const TaskFormDialog: FC<Props> = (props: Props) => {
         name: values.name,
         priority: values.priority,
         deadline: values.deadline ? values.deadline : null,
-        description: values.description,
+        description: values.description ? values.description : null,
         listId: props.listId!,
       }
       await props.onSubmitTask(request);
@@ -67,7 +65,7 @@ const TaskFormDialog: FC<Props> = (props: Props) => {
 
   return (
     <Dialog
-      header="Dodawanie nowego zadania"
+      header={props.header}
       visible={props.isVisible}
       modal
       blockScroll
@@ -115,6 +113,7 @@ const TaskFormDialog: FC<Props> = (props: Props) => {
                 rows={3}
                 {...inputProps(formik, 'description')}
                 id="description"
+                maxLength={250}
               />
             </div>
 
@@ -134,7 +133,6 @@ const TaskFormDialog: FC<Props> = (props: Props) => {
             onClick={() => {
               formik.handleSubmit();
               props.onHide();
-              // navigate(-1)
             }}
           />
         </div>
