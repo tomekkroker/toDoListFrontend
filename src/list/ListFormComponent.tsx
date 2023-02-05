@@ -1,4 +1,4 @@
-import React, {FC} from "react";
+import React, {FC, LegacyRef, useRef} from "react";
 import {Dropdown} from "primereact/dropdown";
 import {Button} from "primereact/button";
 import {useNavigate} from "react-router-dom";
@@ -11,6 +11,7 @@ import {DataTable} from "primereact/datatable";
 import {Column} from "primereact/column";
 import {ListRequest, ListResponse, TaskRequest, TaskResponse} from "./dto";
 import TaskFormDialog from "./TaskFormDialog";
+import {Toast} from "primereact/toast";
 
 type Props = {
   dataList: ListResponse | null;
@@ -27,6 +28,7 @@ type Props = {
   headerList: string;
   headerTask: string;
   isTaskTableVisible: boolean;
+  toastRef: LegacyRef<Toast> | undefined;
 }
 
 type FormValues = {
@@ -161,6 +163,7 @@ const ListFormComponent: FC<Props> = (props) => {
         listId={props.listId}
         header={props.headerTask}
       />
+      <Toast ref={props.toastRef} />
     </>
   )
 }

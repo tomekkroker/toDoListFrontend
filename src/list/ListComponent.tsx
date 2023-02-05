@@ -1,15 +1,17 @@
-import React, {FC} from "react";
+import React, {FC, LegacyRef} from "react";
 import {Button} from "primereact/button";
 import {useNavigate} from 'react-router-dom';
 import {DataTable} from "primereact/datatable";
 import {Column} from "primereact/column";
 import {ListResponse} from "./dto";
+import {Toast} from "primereact/toast";
 
 type Props = {
   listOfTasks: Array<ListResponse>;
   handleEditClick: (row: ListResponse) => void;
   handleDeleteClick: (row: ListResponse) => void;
   handleAddClick: () => void;
+  toastRef: LegacyRef<Toast> | undefined;
 }
 
 const ListComponent: FC<Props> = (props) => {
@@ -67,6 +69,7 @@ const ListComponent: FC<Props> = (props) => {
           icon="pi pi-arrow-left"
         />
       </div>
+      <Toast ref={props.toastRef} />
     </>
   )
 }

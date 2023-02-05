@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useRef, useState} from "react";
 import ListFormComponent from "./ListFormComponent";
 import {ListRequest, TaskRequest, TaskResponse} from "./dto";
 import useApiRequest from "../utils/useApiRequest";
@@ -6,6 +6,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import {addList, editList, getList} from "./lists";
 import {getExceptionMessage} from "../utils/getExceptionMessage";
 import {addTask, deleteTask, editTask, getListTasks} from "./tasks";
+import {Toast} from "primereact/toast";
 
 type Params = {
   id: string | undefined;
@@ -14,12 +15,19 @@ type Params = {
 const ListFormContainer: React.FC = () => {
   const [isTaskDialogOpen,
     setIsTaskDialogOpen] = useState<boolean>(false);
+  const [isRefreshTasks,
+    setIsRefreshTasks] = useState<boolean>(false);
+  const [isRefreshLists,
+    setIsRefreshLists] = useState<boolean>(false);
   const [taskData, setTaskData] = useState<TaskResponse | null>(null);
   const params = useParams<Params>();
   const getMode = () => (params.id === 'add-list' ? 'create' : 'edit');
   const mode = getMode();
   const navigate = useNavigate();
+  const toast = useRef<Toast>(null);
 
+  const refreshTasks = () => setIsRefreshTasks(!isRefreshTasks);
+  const refreshLists = () => setIsRefreshLists(!isRefreshLists);
 
   // pobieranie listy
   const {data: listData} = useApiRequest(
@@ -37,7 +45,7 @@ const ListFormContainer: React.FC = () => {
         return getListTasks(params.id);
       }
       return null;
-    }, [isTaskDialogOpen],
+    }, [isTaskDialogOpen, isRefreshTasks],
   );
 
   const handleAddClick = () => {
@@ -48,40 +56,47 @@ const ListFormContainer: React.FC = () => {
   const onSaveList = async (request: ListRequest) => {
     if (mode === 'edit' && params.id) {
       try {
-        const x = await editList(params.id, request);
+        await editList(params.id, request);
+        refreshLists();
+        toast.current?.show({ severity: 'error', summary: 'Pomyślnie zmodyfikowano listę'});
       } catch (e) {
         const error = await getExceptionMessage(e);
+        toast.current?.show({ severity: 'error', summary: error});
       }
     } else {
       try {
         await addList(request);
+        refreshLists();
+        toast.current?.show({ severity: 'error', summary: 'Pomyślnie utworzono listę'});
       } catch (e) {
         const error = await getExceptionMessage(e);
+        toast.current?.show({ severity: 'error', summary: error});
       }
     }
   }
 
   // zapisywanie zadań
   const onSaveTask = async (request: TaskRequest) => {
-    console.log(request)
     if (taskData && taskData.id) {
       try {
-        console.log("edycja")
         await editTask(taskData.id, request);
+        refreshTasks();
+        toast.current?.show({ severity: 'success', summary: 'Pomyślnie zedytowano zadanie'});
       } catch (e) {
         const error = await getExceptionMessage(e);
+        toast.current?.show({ severity: 'error', summary: error});
       }
     } else {
       try {
-        console.log("dodawanie")
         await addTask(request);
+        refreshTasks();
+        toast.current?.show({ severity: 'success', summary: 'Pomyślnie dodano zadanie'});
       } catch (e) {
         const error = await getExceptionMessage(e);
+        toast.current?.show({ severity: 'error', summary: error});
       }
     }
   }
-
-  console.log(tasksData);
 
   const handleEditClick = (row: TaskResponse) => {
     setTaskData(row);
@@ -91,10 +106,12 @@ const ListFormContainer: React.FC = () => {
   const handleDeleteClick = async (row: TaskResponse) => {
     if (row?.id) {
       try {
-        console.log("usuwanie")
         await deleteTask(row.id);
+        refreshTasks();
+        toast.current?.show({ severity: 'success', summary: 'Pomyślnie usunięto zadanie'});
       } catch (e) {
         const error = await getExceptionMessage(e);
+        toast.current?.show({ severity: 'error', summary: error});
       }
     }
   }
@@ -139,6 +156,7 @@ const ListFormContainer: React.FC = () => {
     headerList={headerList()}
     headerTask={headerTask()}
     isTaskTableVisible={isTaskTableVisible()}
+    toastRef={toast}
   />
 }
 

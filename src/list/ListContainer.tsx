@@ -1,15 +1,20 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import ListComponent from "./ListComponent";
 import {ListResponse} from "./dto";
 import {LISTS} from "../utils/routeNames";
 import {useNavigate} from "react-router-dom";
 import {getExceptionMessage} from "../utils/getExceptionMessage";
 import {deleteList} from "./lists";
+import {Toast} from "primereact/toast";
 
 const ListContainer = () => {
 
   const navigate = useNavigate();
   const [listOfTasks, setListOfTasks] = useState<ListResponse[]>([]);
+  const [isRefreshLists,
+    setIsRefreshLists] = useState<boolean>(false);
+  const refreshLists = () => setIsRefreshLists(!isRefreshLists);
+  const toast = useRef<Toast>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,7 +24,7 @@ const ListContainer = () => {
       setListOfTasks(bodyList);
     }
     fetchData();
-  }, []);
+  }, [isRefreshLists]);
 
   const handleAddClick = () => {
     navigate(`add-list`);
@@ -32,10 +37,12 @@ const ListContainer = () => {
   const handleDeleteClick = async (row: ListResponse) => {
     if (row?.id) {
       try {
-        console.log("usuwanie")
         await deleteList(row.id);
+        refreshLists();
+        toast.current?.show({ severity: 'success', summary: 'Pomyślnie usunięto listę'});
       } catch (e) {
         const error = await getExceptionMessage(e);
+        toast.current?.show({ severity: 'error', summary: error});
       }
     }
   }
@@ -45,8 +52,8 @@ const ListContainer = () => {
     handleAddClick={handleAddClick}
     handleEditClick={handleEditClick}
     handleDeleteClick={handleDeleteClick}
+    toastRef={toast}
   />
-
 }
 
 export default ListContainer;
