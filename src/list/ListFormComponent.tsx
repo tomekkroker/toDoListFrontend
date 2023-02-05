@@ -1,4 +1,4 @@
-import React, {FC, LegacyRef, useRef} from "react";
+import React, {Dispatch, FC, LegacyRef} from "react";
 import {Dropdown} from "primereact/dropdown";
 import {Button} from "primereact/button";
 import {useNavigate} from "react-router-dom";
@@ -22,7 +22,8 @@ type Props = {
   handleDeleteClick: (row: TaskResponse) => void;
   setIsTaskFormDialog: (data: boolean) => void;
   isTaskFormDialog: boolean;
-  dataTask: TaskResponse | null;
+  taskData: TaskResponse | null;
+  setTaskData: Dispatch<TaskResponse | null>
   onSubmitTask: (taskRequest: TaskRequest) => void;
   listId: number;
   headerList: string;
@@ -106,7 +107,9 @@ const ListFormComponent: FC<Props> = (props) => {
                   <h5 className="tasks"> Zadania do zrobienia</h5>
                   <DataTable
                     value={props.tasks as TaskResponse[]}
-                    responsiveLayout="scroll">
+                    responsiveLayout="scroll"
+                    emptyMessage="Brak danych"
+                  >
                     <Column
                       header="Akcje"
                       body={(row) => (
@@ -157,13 +160,14 @@ const ListFormComponent: FC<Props> = (props) => {
       </div>
       <TaskFormDialog
         isVisible={props.isTaskFormDialog}
-        dataTask={props.dataTask}
+        dataTask={props.taskData}
         onSubmitTask={props.onSubmitTask}
         onHide={() => props.setIsTaskFormDialog(false)}
         listId={props.listId}
         header={props.headerTask}
+        setTaskData={props.setTaskData}
       />
-      <Toast ref={props.toastRef} />
+      <Toast ref={props.toastRef}/>
     </>
   )
 }

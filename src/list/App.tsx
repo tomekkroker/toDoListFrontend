@@ -1,10 +1,10 @@
 import "bootstrap/dist/css/bootstrap.min.css"
-import "./styles/App.css"
+import "../styles/App.css"
 import {BrowserRouter, Routes, Route} from "react-router-dom"
-import Auth from "./Auth"
-import ListFormContainer from "./list/ListFormContainer";
-import ListContainer from "./list/ListContainer";
-import {LISTS} from "./utils/routeNames";
+import Auth from "./StartPage"
+import ListFormContainer from "./ListFormContainer";
+import ListContainer from "./ListContainer";
+import {LISTS} from "../utils/routeNames";
 
 function App() {
   return (

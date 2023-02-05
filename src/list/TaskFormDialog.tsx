@@ -1,4 +1,4 @@
-import React, {FC} from "react";
+import React, {Dispatch, FC} from "react";
 import {Dropdown} from "primereact/dropdown";
 import {Button} from "primereact/button";
 import {priorities} from "./constValues";
@@ -15,6 +15,7 @@ type Props = {
   isVisible: boolean;
   onHide: () => void;
   dataTask: TaskResponse | null;
+  setTaskData: Dispatch<TaskResponse | null>
   onSubmitTask: (taskRequest: TaskRequest) => void;
   listId: number | undefined;
   header: string;
@@ -54,6 +55,7 @@ const TaskFormDialog: FC<Props> = (props: Props) => {
         listId: props.listId!,
       }
       await props.onSubmitTask(request);
+      formik.resetForm();
       props.onHide();
     },
   });
@@ -61,6 +63,7 @@ const TaskFormDialog: FC<Props> = (props: Props) => {
   const onHideWithFormReset = () => {
     props.onHide();
     formik.resetForm();
+    props.setTaskData(null);
   };
 
   return (
@@ -76,8 +79,9 @@ const TaskFormDialog: FC<Props> = (props: Props) => {
           <div className="form">
 
             <div className="input">
-              <label>* Nazwa</label>
+              <label>Nazwa</label>
               <InputText
+                required
                 type="text"
                 placeholder="Wpisz nazwę"
                 {...inputProps(formik, 'name')}

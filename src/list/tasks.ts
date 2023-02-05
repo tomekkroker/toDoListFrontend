@@ -24,20 +24,6 @@ export function deleteTask(taskId: number) {
   });
 }
 
-export function getTask(taskId: string | number) {
-  return apiRequest<TaskResponse>({
-    method: 'GET',
-    path: `/tasks/${taskId}`,
-  });
-}
-
-export function getAllTasks() {
-  return apiRequest<TaskResponse[]>({
-    method: 'GET',
-    path: `/api/tasks`,
-  });
-}
-
 export function getListTasks(listId: string | number) {
   return apiRequest<TaskResponse[]>({
     method: 'GET',

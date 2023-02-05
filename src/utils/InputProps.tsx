@@ -1,4 +1,4 @@
-import { FormikProps } from 'formik';
+import {FormikProps} from 'formik';
 
 export function inputProps<T>(props: FormikProps<T>, id: keyof T) {
   return {

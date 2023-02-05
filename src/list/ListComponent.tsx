@@ -32,6 +32,7 @@ const ListComponent: FC<Props> = (props) => {
           <DataTable
             value={props.listOfTasks}
             responsiveLayout="scroll"
+            emptyMessage="Brak danych"
           >
             <Column
               header="Akcje"
@@ -69,7 +70,7 @@ const ListComponent: FC<Props> = (props) => {
           icon="pi pi-arrow-left"
         />
       </div>
-      <Toast ref={props.toastRef} />
+      <Toast ref={props.toastRef}/>
     </>
   )
 }

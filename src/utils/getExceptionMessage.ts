@@ -9,11 +9,12 @@ const getExceptionMessage = async (ex: unknown): Promise<string> => {
     }
 
     if (ex && ex.json) {
-      const { message, fieldErrors } = await ex.json();
+      const {message, fieldErrors} = await ex.json();
 
       if (fieldErrors) {
         return 'Wprowadzone dane nie są prawidłowe';
-      } if (message && `${message}`.toLowerCase() !== 'no message available') {
+      }
+      if (message && `${message}`.toLowerCase() !== 'no message available') {
         return message;
       }
     }
@@ -24,5 +25,4 @@ const getExceptionMessage = async (ex: unknown): Promise<string> => {
   return 'Wystąpił nierozpoznany błąd';
 };
 
-// eslint-disable-next-line import/prefer-default-export
-export { getExceptionMessage };
+export {getExceptionMessage};

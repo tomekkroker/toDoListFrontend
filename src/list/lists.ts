@@ -30,10 +30,3 @@ export function getList(listId: string | number) {
     path: `/lists/${listId}`,
   });
 }
-
-export function getAllList() {
-  return apiRequest<ListResponse[]>({
-    method: 'GET',
-    path: `/api/lists`,
-  });
-}

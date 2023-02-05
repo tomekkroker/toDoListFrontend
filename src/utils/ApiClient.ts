@@ -24,7 +24,6 @@ async function request(options: RequestOptions) {
 
   if (options.query != null) {
     Object.keys(options.query)
-      // eslint-disable-next-line no-param-reassign
       .forEach((key) => (options.query![key] == null ? delete options.query![key] : {}));
     query = `?${new URLSearchParams(options.query as any).toString()}`;
   }
@@ -62,7 +61,7 @@ async function apiRequest<TResponse>({ mediaType, ...options }: ApiRequestOption
   return undefined as unknown as TResponse;
 }
 
-type RequestOptionsxd = {
+type ReqProps = {
   url: string;
   method: string;
   body?: string;
@@ -85,7 +84,7 @@ const minDelay = (time: number) => <T>(result: T) => new Promise<T>((resolve) =>
   setTimeout(() => resolve(result), time);
 });
 
-const basicRequest = <TRequest = BasicResponse>(options: RequestOptionsxd): Promise<TRequest> => {
+const basicRequest = <TRequest = BasicResponse>(options: ReqProps): Promise<TRequest> => {
 
   const headers = prepareHeaders();
   const defaults = {

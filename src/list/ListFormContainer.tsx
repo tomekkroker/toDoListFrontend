@@ -13,13 +13,11 @@ type Params = {
 }
 
 const ListFormContainer: React.FC = () => {
-  const [isTaskDialogOpen,
-    setIsTaskDialogOpen] = useState<boolean>(false);
-  const [isRefreshTasks,
-    setIsRefreshTasks] = useState<boolean>(false);
-  const [isRefreshLists,
-    setIsRefreshLists] = useState<boolean>(false);
+  const [isTaskDialogVisible, setIsTaskDialogVisible] = useState<boolean>(false);
+  const [isRefreshTasks, setIsRefreshTasks] = useState<boolean>(false);
+  const [isRefreshLists, setIsRefreshLists] = useState<boolean>(false);
   const [taskData, setTaskData] = useState<TaskResponse | null>(null);
+
   const params = useParams<Params>();
   const getMode = () => (params.id === 'add-list' ? 'create' : 'edit');
   const mode = getMode();
@@ -32,7 +30,7 @@ const ListFormContainer: React.FC = () => {
   // pobieranie listy
   const {data: listData} = useApiRequest(
     async () => {
-      if (params.id !== undefined && params.id != 'add-list') {
+      if (params.id !== undefined && params.id !== 'add-list') {
         return getList(params.id);
       }
       return null;
@@ -41,11 +39,11 @@ const ListFormContainer: React.FC = () => {
 
   const {data: tasksData} = useApiRequest(
     async () => {
-      if (params.id !== undefined && params.id != 'add-list') {
+      if (params.id !== undefined && params.id !== 'add-list') {
         return getListTasks(params.id);
       }
       return null;
-    }, [isTaskDialogOpen, isRefreshTasks],
+    }, [isTaskDialogVisible, isRefreshTasks],
   );
 
   const handleAddClick = () => {
@@ -58,19 +56,19 @@ const ListFormContainer: React.FC = () => {
       try {
         await editList(params.id, request);
         refreshLists();
-        toast.current?.show({ severity: 'error', summary: 'Pomyślnie zmodyfikowano listę'});
+        toast.current?.show({severity: 'error', summary: 'Pomyślnie zmodyfikowano listę'});
       } catch (e) {
         const error = await getExceptionMessage(e);
-        toast.current?.show({ severity: 'error', summary: error});
+        toast.current?.show({severity: 'error', summary: error});
       }
     } else {
       try {
         await addList(request);
         refreshLists();
-        toast.current?.show({ severity: 'error', summary: 'Pomyślnie utworzono listę'});
+        toast.current?.show({severity: 'error', summary: 'Pomyślnie utworzono listę'});
       } catch (e) {
         const error = await getExceptionMessage(e);
-        toast.current?.show({ severity: 'error', summary: error});
+        toast.current?.show({severity: 'error', summary: error});
       }
     }
   }
@@ -80,27 +78,29 @@ const ListFormContainer: React.FC = () => {
     if (taskData && taskData.id) {
       try {
         await editTask(taskData.id, request);
+        setTaskData(null);
         refreshTasks();
-        toast.current?.show({ severity: 'success', summary: 'Pomyślnie zedytowano zadanie'});
+        toast.current?.show({severity: 'success', summary: 'Pomyślnie zmodyfikowano zadanie'});
       } catch (e) {
         const error = await getExceptionMessage(e);
-        toast.current?.show({ severity: 'error', summary: error});
+        toast.current?.show({severity: 'error', summary: error});
       }
     } else {
       try {
         await addTask(request);
+        setTaskData(null);
         refreshTasks();
-        toast.current?.show({ severity: 'success', summary: 'Pomyślnie dodano zadanie'});
+        toast.current?.show({severity: 'success', summary: 'Pomyślnie dodano zadanie'});
       } catch (e) {
         const error = await getExceptionMessage(e);
-        toast.current?.show({ severity: 'error', summary: error});
+        toast.current?.show({severity: 'error', summary: error});
       }
     }
   }
 
   const handleEditClick = (row: TaskResponse) => {
     setTaskData(row);
-    setIsTaskDialogOpen(true);
+    setIsTaskDialogVisible(true);
   };
 
   const handleDeleteClick = async (row: TaskResponse) => {
@@ -108,16 +108,17 @@ const ListFormContainer: React.FC = () => {
       try {
         await deleteTask(row.id);
         refreshTasks();
-        toast.current?.show({ severity: 'success', summary: 'Pomyślnie usunięto zadanie'});
+        setTaskData(null);
+        toast.current?.show({severity: 'success', summary: 'Pomyślnie usunięto zadanie'});
       } catch (e) {
         const error = await getExceptionMessage(e);
-        toast.current?.show({ severity: 'error', summary: error});
+        toast.current?.show({severity: 'error', summary: error});
       }
     }
   }
 
   const headerList = () => {
-    if (params.id == 'add-list') {
+    if (params.id === 'add-list') {
       return 'Dodawanie nowej listy'
     } else {
       return 'Dodawanie zadań do listy'
@@ -133,12 +134,7 @@ const ListFormContainer: React.FC = () => {
   }
 
   const isTaskTableVisible = () => {
-    if (params.id == 'add-list') {
-      // edycja
-      return true;
-    } else {
-      return false;
-    }
+    return params.id === 'add-list';
   }
 
   return <ListFormComponent
@@ -148,9 +144,10 @@ const ListFormContainer: React.FC = () => {
     handleAddClick={handleAddClick}
     handleEditClick={handleEditClick}
     handleDeleteClick={handleDeleteClick}
-    setIsTaskFormDialog={setIsTaskDialogOpen}
-    dataTask={taskData}
-    isTaskFormDialog={isTaskDialogOpen}
+    setIsTaskFormDialog={setIsTaskDialogVisible}
+    taskData={taskData}
+    setTaskData={setTaskData}
+    isTaskFormDialog={isTaskDialogVisible}
     onSubmitTask={onSaveTask}
     listId={parseInt(params.id ? params.id : '')}
     headerList={headerList()}
